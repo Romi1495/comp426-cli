@@ -1,11 +1,14 @@
 body {
     margin: 0;
-    background-color: rgba(219, 198, 198, 0.795)
 }
 h1 {
     text-align: center;
 }
+a {
+    color: white;
+}
 .navbar {
+    background-image: linear-gradient(to right, black, rgba(0, 0, 0, 0.678));
     display: inline-block;
     margin: auto;
     width: 100%;
@@ -16,5 +19,17 @@ h1 {
     float: left;
     margin: 20px;
     text-decoration: none;
-    color: rgba(120, 71, 167, 0.808)
+    font-size: 20px;
+}
+
+.active {
+    color: rgb(11, 174, 250);
+}
+a:not(.active):hover {
+    color: rgb(166, 222, 248);
+}
+#sr {
+    display: block;
+    width: 66%;
+    margin: 0 auto;
 }
