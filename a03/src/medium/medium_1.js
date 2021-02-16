@@ -1,5 +1,5 @@
 import {variance} from "./data/stats_helpers.js";
-
+import {maxAndMin} from "../mild/mild_1.js";
 /**
  * Gets the sum of an array of numbers.
  * @param array
@@ -8,7 +8,11 @@ import {variance} from "./data/stats_helpers.js";
  * prototype functions. Very useful
  */
 export function getSum(array) {
-
+    let sum = 0;
+    array.forEach(element => {
+        sum += element;
+    });
+    return sum;
 }
 
 
@@ -22,7 +26,12 @@ export function getSum(array) {
  * console.log(getMedian(array)); // 4.5
  */
 export function getMedian(array) {
-
+    let arrayLen = array.length;
+    if (arrayLen % 2 == 0) {
+        return ((array[arrayLen/2 - 1] + array[arrayLen/2])/2);
+    } else {
+        return array[Math.floor(arrayLen/2)];
+    }
 }
 
 /**
@@ -45,6 +54,15 @@ export function getMedian(array) {
  }
  */
 export function getStatistics(array) {
-
+    let obj = {
+        length: array.length,
+        sum: getSum(array),
+        mean: getSum(array)/array.length,
+        median: getMedian(array),
+        min: maxAndMin(array).min,
+        max: maxAndMin(array).max,
+        variance: variance(array, getSum(array)/array.length),
+        standard_deviation: Math.sqrt(variance(array, getSum(array)/array.length))
+    }
+    return obj;
 }
-
