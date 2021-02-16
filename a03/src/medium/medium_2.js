@@ -25,7 +25,7 @@ export const allCarStats = {
         "highway": mpg_data.reduce((acc, car) => acc + car.highway_mpg, 0) / mpg_data.length
         },
     allYearStats: getStatistics(mpg_data.map(car => car.year)),
-    ratioHybrids: (mpg_data.filter(car => car.hybrid === true).length/mpg_data.filter(car => car.hybrid === false).length),
+    ratioHybrids: calcRatio(mpg_data.filter(car => car.hybrid === true), mpg_data.filter(car => car.hybrid === false))
 };
 
 
@@ -87,6 +87,49 @@ export const allCarStats = {
  * }
  */
 export const moreStats = {
-    makerHybrids: undefined,
+    makerHybrids: calcHybrids(),
     avgMpgByYearAndHybrid: undefined
 };
+
+// Helper function to calculate ratio using two arrays 
+export function calcRatio (arr1, arr2) {
+    return arr1.length/(arr1.length + arr2.length);
+}
+
+export function calcHybrids () {
+    const hybridCars = mpg_data.filter(car => car.hybrid === true);
+    const hybridMakes = hybridCars.reduce(function(arr, car) {
+        if (!contains(arr, car.make)) {
+            arr.push( {
+                make: car.make,
+                hybrids: [car.id]
+            });
+        } else {
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i].make == car.make) {
+                    arr[i].hybrids.push(car.id);
+                }
+            }
+        }
+        return arr;
+    }, []);
+    function compare(a, b) {
+        if (a.hybrids.length > b.hybrids.length) return -1;
+        if (a.hybrids.length < b.hybrids.length) return 1;
+    }
+    hybridMakes.sort(compare)
+    return hybridMakes;
+}
+export function contains(arr, element) {
+    var found = false;
+    let len = 0;
+    !arr ? len = 0 : len = arr.length;
+    for (let i = 0; i < len; i++) {
+        if (arr[i].make == element) {
+            found = true;
+            break;
+        }
+    }
+    return found;
+}
+console.log(calcHybrids());

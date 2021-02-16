@@ -43,7 +43,7 @@ export const repeatDemo = () => {
  *   product of num1 and num2.
  */
 export const multiplyBy = (num1) => {
-    // return function multBy(num2) { return num1 * num2 };
+    return function (num2) { return num1 * num2 };
 };
 
 
@@ -52,7 +52,8 @@ export const multiplyBy = (num1) => {
  *   "tenTimes" that multiplies a number by 10.
  */
 export const tenTimes = (num) => {
-    return function
+    let mult = multiplyBy(num);
+    return mult(10);
 };
 
 
@@ -61,7 +62,7 @@ export const tenTimes = (num) => {
  *   function to multiply 50 by 10 and returns the result.
  */
 export const tenTimesFifty = () => {
-
+    return tenTimes(50);
 };
 
 
@@ -89,7 +90,10 @@ export const tenTimesFifty = () => {
  *    everyEven([1, 1, 0, 1, 1], x => x === 1)  <--  returns false
  */
 export const everyEven = (arr, test) => {
-
+    for (let i = 0; i < arr.length; i++) {
+        if (i % 2 == 0 && !test(arr[i])) return false;
+    }
+    return true;
 };
 
 
@@ -172,4 +176,4 @@ export const anEvenIsOdd = (arr) => {
 export const hasExactly = (arr, test, n) => {
 
 };
-repeatDemo();
+console.log(everyEven([1, 5, 1, 0, 1], x => x === 1));
