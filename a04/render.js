@@ -15,6 +15,17 @@
  * @param hero  A hero object (see data.js)
  */
 export const renderHeroCard = function(hero) {
+    return `
+    <div style="background-color: ${hero.backgroundColor}" class="column is-one-quarter has-text-centered">
+        <div>
+            <img class="is-rounded" src="${hero.img}">
+        </div>
+        <div>
+            <p style="color: ${hero.color}" class="title is-4"> ${hero.first} ${hero.last} </p>
+            <p style="color: white" class="subtitle is-italic is-6"> AKA </p>
+            <p style="color: ${hero.color}" class="has-text-weight-bold title is-2"> ${hero.name} </p>
+        </div>
+    </div>`;
     // TODO: Generate HTML elements to represent the hero
     // TODO: Return these elements as a string, HTMLElement, or jQuery object
     // Example: return `<div>${hero.name}</div>`;
@@ -46,9 +57,11 @@ export const loadHeroesIntoDOM = function(heroes) {
     const $root = $('#root');
 
     // TODO: Generate the heroes using renderHeroCard()
-
+    heroicData.forEach(hero => {
+        let card = renderHeroCard(hero);
+        ($root).append(card);
+    });
     // TODO: Append the hero cards to the $root element
-
     // Pick a hero from the list at random
     const randomHero = heroes[Math.floor(Math.random() * heroes.length)];
 
