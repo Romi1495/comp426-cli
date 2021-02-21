@@ -88,10 +88,10 @@ export const allCarStats = {
  */
 export const moreStats = {
     makerHybrids: calcHybrids(),
-    avgMpgByYearAndHybrid: undefined
+    avgMpgByYearAndHybrid: calcYears()
 };
 
-// Helper function to calculate ratio using two arrays 
+// Helper functions
 export function calcRatio (arr1, arr2) {
     return arr1.length/(arr1.length + arr2.length);
 }
@@ -99,7 +99,7 @@ export function calcRatio (arr1, arr2) {
 export function calcHybrids () {
     const hybridCars = mpg_data.filter(car => car.hybrid === true);
     const hybridMakes = hybridCars.reduce(function(arr, car) {
-        if (!contains(arr, car.make)) {
+        if (!contains(arr, "make", car.make)) {
             arr.push( {
                 make: car.make,
                 hybrids: [car.id]
@@ -120,16 +120,55 @@ export function calcHybrids () {
     hybridMakes.sort(compare)
     return hybridMakes;
 }
-export function contains(arr, element) {
+
+export function calcYears() {
+    let years = [...new Set(mpg_data.map(car => car.year))].sort();
+    let yearsObj = {};
+    years.forEach(year => yearsObj[year] = {
+        hybrid: {
+            city: [],
+            highway: []
+        },
+        notHybrid: {
+            city: [],
+            highway: []
+        }
+    });
+    let returnObj = mpg_data.reduce(function(arr, car) {
+        if (car.hybrid) {
+            arr[car.year].hybrid.city.push(car.city_mpg);
+            arr[car.year].hybrid.highway.push(car.highway_mpg);
+        } else {
+            arr[car.year].notHybrid.city.push(car.city_mpg);
+            arr[car.year].notHybrid.highway.push(car.highway_mpg);
+        }
+        return arr;
+    }, yearsObj);
+    years.forEach(year => {
+        returnObj[year].hybrid.city = returnObj[year].hybrid.city.reduce(function (sum, mpg) {
+            return sum + mpg;
+        }) / returnObj[year].hybrid.city.length;
+        returnObj[year].hybrid.highway = returnObj[year].hybrid.highway.reduce(function (sum, mpg) {
+            return sum + mpg;
+        }) / returnObj[year].hybrid.highway.length;
+        returnObj[year].notHybrid.city = returnObj[year].notHybrid.city.reduce(function (sum, mpg) {
+            return sum + mpg;
+        }) / returnObj[year].notHybrid.city.length;
+        returnObj[year].notHybrid.highway = returnObj[year].notHybrid.highway.reduce(function (sum, mpg) {
+            return sum + mpg;
+        }) / returnObj[year].notHybrid.highway.length;
+    });
+    return returnObj;
+}
+export function contains(arr, key, element) {
+    if (arr.length == 0) return false;
     var found = false;
-    let len = 0;
-    !arr ? len = 0 : len = arr.length;
-    for (let i = 0; i < len; i++) {
-        if (arr[i].make == element) {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i][key] == element) {
             found = true;
             break;
         }
     }
     return found;
 }
-console.log(calcHybrids());
+console.log(calcYears())
