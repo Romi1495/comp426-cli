@@ -1,5 +1,5 @@
 {
-  "name": "a04",
+  "name": "a05",
   "version": "1.0.0",
   "main": "data.js",
   "scripts": {
@@ -12,5 +12,6 @@
     "bulma": "^0.9.2",
     "jquery": "^3.5.1"
   },
+  "devDependencies": {},
   "description": ""
 }

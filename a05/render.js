@@ -14,8 +14,36 @@
  *     the hero's name, information, and colors.
  * @param hero  A hero object (see data.js)
  */
+
+ function test() {
+    console.log("SUGMA");
+}
+
 export const renderHeroCard = function(hero) {
     // TODO: Copy your code from a04 to render the hero card
+    return `
+    <div class="column is-one-quarter has-text-centered">
+        <div class="card">
+            <div style="background-color: ${hero.backgroundColor}; border: solid 5px ${hero.color}; border-radius: 10px" class="card-header"> <p style="color: ${hero.color}" class="has-text-weight-bold card-header-title title is-4"> ${hero.name} </p></div>
+            <div style="background-color: ${hero.backgroundColor}; border-radius: 10px" class="card-content">
+                <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-128x128">
+                            <img style="border: solid 6px ${hero.color}" class="is-rounded" src="${hero.img}" alt="${hero.name} picture">
+                        </figure>
+                        <br> <br>
+                        <button onclick="test()" style="border: hidden; background-color: ${hero.color}; color: ${hero.backgroundColor}" class="button is-rounded is-medium"> EDIT </button>
+                    </div>
+                    <div class="media-content">
+                        <p class="title is-4"> <span style="color: ${hero.color}"> ${hero.first} ${hero.last} </span> </p>
+                        <p style="color: ${hero.color}" class="subtitle is-6"> First appearance: ${hero.firstSeen.getMonth()}/${hero.firstSeen.getDate()}/19${hero.firstSeen.getYear()} </p>
+                        <p style="color: ${hero.color}"> ${hero.description} </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    `
 };
 
 
@@ -28,6 +56,55 @@ export const renderHeroCard = function(hero) {
  */
 export const renderHeroEditForm = function(hero) {
     // TODO: Copy your code from a04 to render the hero edit form
+    return `
+    <div style="width: 20%" class="card">
+        <div style="background-color: ${hero.backgroundColor}; border: solid 5px ${hero.color}; border-radius: 10px" class="card-header"> 
+            <p style="color: ${hero.color}" class="has-text-weight-bold card-header-title title is-4"> EDIT HERO: ${hero.name} </p>
+        </div>
+        <div style="background-color: ${hero.backgroundColor}; border-radius: 10px" class="card-content">
+            <form>
+            <div class="field">
+                <label style="color: ${hero.color}"class="label"> First Name </label>
+                <div class="control">
+                    <input class="input" type="text" value="${hero.first}">
+                </div>
+            </div>
+            <div class="field">
+                <label style="color: ${hero.color}"class="label"> Last Name </label>
+                <div class="control">
+                    <input class="input" type="text" value="${hero.last}">
+                </div>
+            </div>
+            <div class="field">
+                <label style="color: ${hero.color}"class="label"> Superhero Name </label>
+                <div class="control">
+                    <input class="input" type="text" value="${hero.name}">
+                </div>
+            </div>
+            <div class="field">
+                <label style="color: ${hero.color}"class="label"> Hero Description </label>
+                <div class="control">
+                    <input class="input" type="text" value="${hero.description}">
+                </div>
+            </div>
+            <div class="field">
+                <label style="color: ${hero.color}"class="label"> First Seen? </label>
+                <div class="control">
+                    <textarea class="textarea" rows="2"> ${hero.firstSeen} </textarea>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column is-half">
+                    <button type="submit" onclick="function()" style="border: hidden; background-color: ${hero.color}; color: ${hero.backgroundColor}" class="button is-rounded is-medium"> SAVE </button>
+                </div>
+                <div class="column">
+                    <button onclick="function()" style="border: hidden; background-color: ${hero.color}; color: ${hero.backgroundColor}" class="button is-rounded is-medium"> CANCEL </button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    `
 };
 
 
@@ -40,6 +117,7 @@ export const renderHeroEditForm = function(hero) {
 export const handleEditButtonPress = function(event) {
     // TODO: Render the hero edit form for the clicked hero and replace the
     //       hero's card in the DOM with their edit form instead
+    console.log("Sugma");
 };
 
 
@@ -80,7 +158,10 @@ export const loadHeroesIntoDOM = function(heroes) {
 
     // TODO: Generate the heroes using renderHeroCard()
     //       NOTE: Copy your code from a04 for this part
-
+    heroes.forEach(hero => {
+        let card = renderHeroCard(hero);
+        ($root).append(card);
+    });
     // TODO: Append the hero cards to the $root element
     //       NOTE: Copy your code from a04 for this part
 
@@ -93,8 +174,6 @@ export const loadHeroesIntoDOM = function(heroes) {
     // TODO: Use jQuery to add handleCancelButtonPress() as an event handler for
     //       clicking the cancel button
 };
-
-
 
 /**
  * Use jQuery to execute the loadHeroesIntoDOM function after the page loads
